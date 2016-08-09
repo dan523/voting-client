@@ -1,6 +1,8 @@
 /// <reference path="../../typings/index.d.ts" />
 
 import React from 'react';
+import Vote from './Vote';
+import Winner from './Winner';
 
 export default React.createClass({
     getPair: function () {
@@ -13,20 +15,12 @@ export default React.createClass({
         return this.props.hasVoted === entry;
     },
     render: function () {
-        return <div className="voting">
-            {this.getPair().map(entry =>
-                <button 
-                    key={entry} 
-                    onClick={() => this.props.vote(entry)}
-                    disabled={this.isDisabled()}>
-                    <h1>{entry}</h1>      
-                    {
-                        this.hasVotedFor(entry) ?
-                            <div className="label">Voted</div> :
-                            null
-                    }              
-                </button>
-            )}
+        return <div>
+            {
+                this.props.winner ?
+                    <Winner ref="winner" winner={this.props.winner} /> :
+                    <Vote {...this.props} />
+            }
         </div>;
     }
 })
