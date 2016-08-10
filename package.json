@@ -12,7 +12,7 @@
   "scripts": {
     "install": "typings install",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js \"test/**/*.@(js|jsx)\"",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch --watch-extensions jsx"
   },
   "keywords": [],
   "author": "",
