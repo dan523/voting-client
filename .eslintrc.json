@@ -30,6 +30,9 @@
             "always"
         ],
         "no-undef": 1,
-        "no-unused-vars": 1
+        "no-unused-vars": 1,
+        "no-console": [
+            "warn"
+        ]
     }
 }
