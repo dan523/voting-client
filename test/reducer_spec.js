@@ -69,6 +69,7 @@ describe('reducer', () => {
     it('handles vote by setting hasVoted', () => {
         const state = fromJS({
             vote: {
+                id: 0,
                 pair: ['Trainspotting', '28 Days Later'],
                 tally: {Trainspotting: 1}
             }
@@ -78,10 +79,14 @@ describe('reducer', () => {
         const nextState = reducer(state, action);
         expect(nextState).to.equal(fromJS({
             vote: {
+                id: 0,
                 pair: ['Trainspotting', '28 Days Later'],
                 tally: {Trainspotting: 1}
             },
-            hasVoted: 'Trainspotting'
+            hasVoted: {
+                entry: 'Trainspotting',
+                id: 0
+            }
         }));
     });
 
@@ -106,15 +111,20 @@ describe('reducer', () => {
     it('removes hasVoted on SET_STATE if pair has changed', () => {
         const initialState = fromJS({
             vote: {
+                id: 0,
                 pair: ['Trainspotting', '28 Days Later'],
                 tally: {Trainspotting: 1}
             },
-            hasVoted: 'Trainspotting'
+            hasVoted: {
+                entry: 'Trainspotting',
+                id: 0
+            }
         });
         const action = {
             type: 'SET_STATE',
             state: {
                 vote: {
+                    id: 1,
                     pair: ['Sunshine', 'Slumdog Millionaire']
                 }
             }
@@ -123,8 +133,46 @@ describe('reducer', () => {
 
         expect(nextState).to.equal(fromJS({
             vote: {
+                id: 1,
                 pair: ['Sunshine', 'Slumdog Millionaire']
             }
         }));
+    });
+
+    it('doesnt remove hasVoted on SET_STATE if pair has not changed', () => {
+        const initialState = fromJS({
+            vote: {
+                id: 0,
+                pair: ['Trainspotting', '28 Days Later'],
+                tally: {Trainspotting: 1}
+            },
+            hasVoted: {
+                entry: 'Trainspotting',
+                id: 0
+            }
+        });
+        const action = {
+            type: 'SET_STATE',
+            state: {
+                vote: {
+                    id: 0,
+                    pair: ['Trainspotting', '28 Days Later'],
+                    tally: {Trainspotting: 1}
+                }
+            }
+        };
+        const nextState = reducer(initialState, action);
+
+        expect(nextState).to.equal(fromJS({
+            vote: {
+                id: 0,
+                pair: ['Trainspotting', '28 Days Later'],
+                tally: {Trainspotting: 1}
+            },
+            hasVoted: {
+                entry: 'Trainspotting',
+                id: 0
+            }
+        }));   
     });
 });
